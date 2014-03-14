@@ -1,0 +1,47 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<!--
+//*********************************************************
+// Copyright (c) Microsoft Corporation
+// All rights reserved. 
+//
+// Licensed under the Apache License, Version 2.0 (the ""License""); 
+// you may not use this file except in compliance with the License. 
+// You may obtain a copy of the License at 
+// http://www.apache.org/licenses/LICENSE-2.0 
+//
+// THIS CODE IS PROVIDED ON AN  *AS IS* BASIS, WITHOUT 
+// WARRANTIES OR CONDITIONS OF ANY KIND, EITHER EXPRESS 
+// OR IMPLIED, INCLUDING WITHOUT LIMITATION ANY IMPLIED 
+// WARRANTIES OR CONDITIONS OF TITLE, FITNESS FOR A PARTICULAR 
+// PURPOSE, MERCHANTABLITY OR NON-INFRINGEMENT. 
+//
+// See the Apache Version 2.0 License for specific language 
+// governing permissions and limitations under the License.
+//*********************************************************
+-->
+  <Package xmlns="http://schemas.microsoft.com/appx/2010/manifest">
+    <Identity Name="4553OneNoteSamplesMSFT.OneNoteServiceSamples" Publisher="CN=CF305860-B4CC-424F-BA5E-D9E5B721F831" Version="1.0.0.1" />
+    <Properties>
+      <DisplayName>OneNote Cloud Create Pages Sample</DisplayName>
+      <PublisherDisplayName>OneNoteSamples_MSFT</PublisherDisplayName>
+      <Logo>Assets\StoreLogo.png</Logo>
+    </Properties>
+    <Prerequisites>
+      <OSMinVersion>6.2.1</OSMinVersion>
+      <OSMaxVersionTested>6.2.1</OSMaxVersionTested>
+    </Prerequisites>
+    <Resources>
+      <Resource Language="x-generate" />
+    </Resources>
+    <Applications>
+      <Application Id="App" Executable="$targetnametoken$.exe" EntryPoint="OneNoteCloudCreatePagesSample.App">
+        <VisualElements DisplayName="OneNote Cloud Create Pages Sample" Logo="Assets\Logo.png" SmallLogo="Assets\SmallLogo.png" Description="Samples of how to use OneNote Cloud to create pages." ForegroundText="light" BackgroundColor="#464646">
+          <DefaultTile ShowName="allLogos" />
+          <SplashScreen Image="Assets\SplashScreen.png" />
+        </VisualElements>
+      </Application>
+    </Applications>
+    <Capabilities>
+      <Capability Name="internetClient" />
+    </Capabilities>
+  </Package>
