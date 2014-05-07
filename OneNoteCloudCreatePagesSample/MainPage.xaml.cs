@@ -61,6 +61,8 @@ namespace OneNoteCloudCreatePagesSample
         private LiveAuthClient _authClient;
         private static readonly string[] Scopes = new[] {"wl.signin", "wl.offline_access", "Office.OneNote_Create" };
 
+		private string pageSectionName = "Quick Notes";
+
         /// <summary>
         /// Authentication client to be used across the Page.
         /// </summary>
@@ -400,10 +402,10 @@ namespace OneNoteCloudCreatePagesSample
                 await ClearResponseFields();
 
                 // Get actual handler for the specific example from the data model
-                Func<bool, Task<StandardResponse>> runAction = ((SampleDataItem) (itemDetail.DataContext)).Action;
+                Func<bool, string, Task<StandardResponse>> runAction = ((SampleDataItem) (itemDetail.DataContext)).Action;
                 if (runAction != null)
                 {
-                    StandardResponse response = await runAction(debug);
+					StandardResponse response = await runAction(debug, pageSectionName);
                     responseTextBox.Text = ((int) response.StatusCode).ToString() + ": " +
                                                 response.StatusCode.ToString();
                     if (response.StatusCode == HttpStatusCode.Created)
@@ -481,5 +483,37 @@ namespace OneNoteCloudCreatePagesSample
         {
             await Launcher.LaunchUriAsync(new Uri(webLinkTextBox.Text));
         }
+
+		private void sectionName_GotFocus(object sender, RoutedEventArgs e)
+		{
+			if(sectionName.Text.Equals("Enter Section Name"))
+			{
+				sectionName.Text = string.Empty;
+			}
+		}
+
+		private void sectionName_LostFocus(object sender, RoutedEventArgs e)
+		{
+			if(string.IsNullOrEmpty(sectionName.Text))
+			{
+				sectionName.Text = "Enter Section Name";
+			}
+		}
+
+		private void sectionName_TextChanged(object sender, TextChangedEventArgs e)
+		{
+			string sectionNameSpecified = sectionName.Text.Trim();
+			if(sectionNameSpecified.Trim().Length > 0)
+			{
+				if(sectionNameSpecified.Equals("Enter Section Name"))
+				{
+					pageSectionName = "Quick Notes";
+				}
+				else
+				{
+					pageSectionName = sectionNameSpecified;
+				}
+			}
+		}
     }
 }

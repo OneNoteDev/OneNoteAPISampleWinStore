@@ -32,7 +32,6 @@
     mc:Ignorable="d">
 
     <Page.Resources>
-
         <!-- Collection of items displayed by this page -->
         <CollectionViewSource
             x:Name="itemsViewSource"
@@ -123,6 +122,7 @@
                         <Button x:Name="createPageButton" Margin="0,20,0,0" Click="CreatePageButton_Click">Create page</Button>
                         <Button x:Name="debugButton" Margin="0,20,0,0" Click="DebugButton_Click" >Step through create page code</Button>
                     </StackPanel>
+                    <TextBox x:Name="sectionName" GotFocus="sectionName_GotFocus" LostFocus="sectionName_LostFocus" Text="Enter Section Name" TextChanged="sectionName_TextChanged"></TextBox>
                     <Grid>
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto"/>

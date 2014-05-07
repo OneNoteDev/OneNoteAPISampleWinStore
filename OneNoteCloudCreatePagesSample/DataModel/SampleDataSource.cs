@@ -119,7 +119,7 @@ namespace OneNoteCloudCreatePagesSample.DataModel
     public class SampleDataItem : SampleDataCommon
     {
         public SampleDataItem(String uniqueId, String title, String imagePath, String description,
-                              Func<bool, Task<StandardResponse>> action, 
+                              Func<bool, string, Task<StandardResponse>> action, 
                               SampleDataGroup group)
             : base(uniqueId, title, imagePath, description)
         {
@@ -127,9 +127,9 @@ namespace OneNoteCloudCreatePagesSample.DataModel
             this._group = group;
         }
 
-        private Func<bool, Task<StandardResponse>> _action;
+        private Func<bool, string, Task<StandardResponse>> _action;
 
-        public Func<bool, Task<StandardResponse>> Action
+        public Func<bool, string, Task<StandardResponse>> Action
         {
             get { return this._action; }
             set { this.SetProperty(ref this._action, value); }
@@ -315,11 +315,11 @@ namespace OneNoteCloudCreatePagesSample.DataModel
                                                      "Create a page with a snapshot of the OneNote.com homepage on it.",
                                                      createGroup.Facade.CreatePageWithUrl,
                                                      createGroup));
-            createGroup.Items.Add(new SampleDataItem("CreateWithAttachment",
-                                                     "Create a page with an attachment",
+            createGroup.Items.Add(new SampleDataItem("CreateWithAttachmentAndPDFRendering",
+                                                     "Create a page with a PDF attachment rendered",
                                                      "Assets/DarkGray.png",
-                                                     "Create a page with a file attachment",
-                                                     createGroup.Facade.CreatePageWithAttachedFile,
+                                                     "Create a page with a PDF file attachment rendered",
+                                                     createGroup.Facade.CreatePageWithPDFAttachedAndRendered,
                                                      createGroup));
             this.AllGroups.Add(createGroup);
         }

@@ -37,7 +37,11 @@ namespace OneNoteCloudCreatePagesSample
     /// </summary>
     public class CreateExamples
     {
-        private static readonly Uri PagesEndPoint = new Uri("https://www.onenote.com/api/v1.0/pages");
+        private static readonly string PagesEndPoint = "https://www.onenote.com/api/v1.0/pages";
+
+		private string SectionName = "Quick Notes";
+
+		private string DEFAULT_SECTION_NAME = "Quick Notes";
 
         /// <summary>
         /// Client to do OAUTH against Microsoft Live Connect service
@@ -48,6 +52,20 @@ namespace OneNoteCloudCreatePagesSample
         {
             _authClient = authClient;
         }
+
+		public Uri GetPagesEndpoint(string specifiedSectionName)
+		{
+			string sectionNameToUse;
+			if(specifiedSectionName != null)
+			{
+				sectionNameToUse = specifiedSectionName;
+			}
+			else
+			{
+				sectionNameToUse = DEFAULT_SECTION_NAME;
+			}
+			return new Uri(PagesEndPoint + "/?sectionName=" + sectionNameToUse);
+		}
 
         /// <summary>
         /// Does the object currently have a valid authenticated state
@@ -61,7 +79,7 @@ namespace OneNoteCloudCreatePagesSample
         /// Create a very simple page with some formatted text.
         /// </summary>
         /// <param name="debug">Run the code under the debugger</param>
-        async public Task<StandardResponse> CreateSimplePage(bool debug)
+        async public Task<StandardResponse> CreateSimplePage(bool debug, string sectionName)
         {
             if (debug)
             {
@@ -92,7 +110,7 @@ namespace OneNoteCloudCreatePagesSample
                                 "</body>" +
                                 "</html>";
 
-            var createMessage = new HttpRequestMessage(HttpMethod.Post, PagesEndPoint)
+			var createMessage = new HttpRequestMessage(HttpMethod.Post, GetPagesEndpoint(sectionName))
                 {
                     Content = new StringContent(simpleHtml, System.Text.Encoding.UTF8, "text/html")
                 };
@@ -106,7 +124,7 @@ namespace OneNoteCloudCreatePagesSample
         /// Create a page with an image on it.
         /// </summary>
         /// <param name="debug">Run the code under the debugger</param>
-        async public Task<StandardResponse> CreatePageWithImage(bool debug)
+		async public Task<StandardResponse> CreatePageWithImage(bool debug, string sectionName)
         {
             if (debug)
             {
@@ -143,7 +161,7 @@ namespace OneNoteCloudCreatePagesSample
             using (var imageContent = new StreamContent(await GetBinaryStream("assets\\Logo.jpg")))
             {
                 imageContent.Headers.ContentType = new MediaTypeHeaderValue("image/jpeg");
-                HttpRequestMessage createMessage = new HttpRequestMessage(HttpMethod.Post, PagesEndPoint)
+				HttpRequestMessage createMessage = new HttpRequestMessage(HttpMethod.Post, GetPagesEndpoint(sectionName))
                 {
                     Content = new MultipartFormDataContent
                     {
@@ -161,11 +179,11 @@ namespace OneNoteCloudCreatePagesSample
         }
 
         /// <summary>
-        /// Create a page with a file attachment
+        /// Create a page with a PDF document attached and rendered
         /// </summary>
         /// <param name="debug">Determines whether to execute this method under the debugger</param>
         /// <returns>The converted HTTP response message</returns>
-        async public Task<StandardResponse> CreatePageWithAttachedFile(bool debug)
+		async public Task<StandardResponse> CreatePageWithPDFAttachedAndRendered(bool debug, string sectionName)
         {
             if(debug)
             {
@@ -186,20 +204,21 @@ namespace OneNoteCloudCreatePagesSample
             const string attachmentPartName = "pdfattachment1";
             string attachmentRequestHtml = "<html>" +
                                 "<head>" +
-                                "<title>A page created with a file attachment</title>" +
+                                "<title>A page created with a PDF document attached and rendered</title>" +
                                 "<meta name=\"created\" content=\"" + date + "\" />" +
                                 "</head>" +
                                 "<body>" +
-                                "<h1>This is a page with a pdf file attachment</h1>" +
+                                "<h1>This is a page with a PDF file attachment</h1>" +
                                 "<object data-attachment=\"attachment.pdf\" data=\"name:" + attachmentPartName + "\" />" +
+								"<p>Here's the content of the PDF document :</p>" +
+								"<img data-render-src=\"name:" + attachmentPartName + "\" alt=\"Hello World\" width=\"1500\" />" +
                                 "</body>" +
                                 "</html>";
-
             HttpResponseMessage response;
             using (var attachmentContent = new StreamContent(await GetBinaryStream("assets\\attachment.pdf")))
             {
                 attachmentContent.Headers.ContentType = new MediaTypeHeaderValue("application/pdf");
-                HttpRequestMessage createMessage = new HttpRequestMessage(HttpMethod.Post, PagesEndPoint)
+				HttpRequestMessage createMessage = new HttpRequestMessage(HttpMethod.Post, GetPagesEndpoint(sectionName))
                 {
                     Content = new MultipartFormDataContent
                     {
@@ -217,7 +236,7 @@ namespace OneNoteCloudCreatePagesSample
         /// Create a page with an image of an embedded webpage on it.
         /// </summary>
         /// <param name="debug">Run the code under the debugger</param>
-        async public Task<StandardResponse> CreatePageWithEmbeddedWebPage(bool debug)
+		async public Task<StandardResponse> CreatePageWithEmbeddedWebPage(bool debug, string sectionName)
         {
             if (debug)
             {
@@ -263,7 +282,7 @@ namespace OneNoteCloudCreatePagesSample
                                 "</body>" +
                                 "</html>";
 
-            var createMessage = new HttpRequestMessage(HttpMethod.Post, PagesEndPoint)
+			var createMessage = new HttpRequestMessage(HttpMethod.Post, GetPagesEndpoint(sectionName))
             {
                 Content = new MultipartFormDataContent
                         {
@@ -281,7 +300,7 @@ namespace OneNoteCloudCreatePagesSample
         /// Create a page with an image of a URL on it.
         /// </summary>
         /// <param name="debug">Run the code under the debugger</param>
-        async public Task<StandardResponse> CreatePageWithUrl(bool debug)
+		async public Task<StandardResponse> CreatePageWithUrl(bool debug, string sectionName)
         {
             if (debug)
             {
@@ -312,7 +331,7 @@ namespace OneNoteCloudCreatePagesSample
                                 "</body>" +
                                 "</html>";
 
-            var createMessage = new HttpRequestMessage(HttpMethod.Post, PagesEndPoint)
+			var createMessage = new HttpRequestMessage(HttpMethod.Post, GetPagesEndpoint(sectionName))
             {
                 Content = new StringContent(simpleHtml, System.Text.Encoding.UTF8, "text/html")
             };
