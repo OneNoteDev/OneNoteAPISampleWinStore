@@ -4,6 +4,7 @@
 Created by Microsoft Corporation, 2014. Provided As-is without warranty. Trademarks mentioned here are the property of their owners.
 
 ### API functionality demonstrated in this sample
+###The below code sample should be considered for legacy reasons only. For the most up to date Windows code samples, see the newer and more detailed [Windows Universal code sample](https://github.com/OneNoteDev/OneNoteAPISampleWinUniversal)
 
 The following aspects of the API are covered in this sample. You can 
 find additional documentation at the links below.
